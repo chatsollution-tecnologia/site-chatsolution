@@ -1,0 +1,950 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ChatSolution Tecnologia</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="ChatSolution: seu WhatsApp com vários atendentes no mesmo número, IA que responde e agenda, campanhas e CRM. Tech Provider oficial da Meta.">
+<link rel="icon" type="image/png" href="{{ICONE}}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700;800&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<style>
+/* Layout: página clara (branco + verde-menta), um único rodapé escuro; verde da marca só em destaques; tipografia grande e respirada */
+:root{
+  --branco:#ffffff;
+  --menta:#f0f8f2;
+  --menta-2:#e2f3e7;
+  --floresta:#021e0f;
+  --floresta-2:#06321a;
+  --lima:#9dfa64;
+  --verde:#10d06b;
+  --verde-vivo:#00e05a;
+  --verde-escuro:#06803f;
+  --tinta:#0b1e14;
+  --tinta-2:#46594e;
+  --linha:#d8e8dd;
+  --degrade:linear-gradient(120deg,var(--lima) 0%,var(--verde-vivo) 55%,var(--verde) 100%);
+  --sombra:0 24px 60px -30px rgba(2,30,15,.28);
+  --f-titulo:"Poppins",ui-sans-serif,system-ui,sans-serif;
+  --f-texto:"Figtree",ui-sans-serif,system-ui,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+  --larg:1200px;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--branco);color:var(--tinta);font-family:var(--f-texto);font-size:18px;line-height:1.6;overflow-x:hidden}
+img{max-width:100%}
+a{color:inherit}
+.faixa{padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.caixa{max-width:var(--larg);margin-inline:auto;position:relative}
+h1,h2,h3{font-family:var(--f-titulo);margin:0;text-wrap:balance;letter-spacing:-.025em;line-height:1.1}
+h2{font-size:clamp(34px,4.2vw,52px);font-weight:800}
+h3{font-size:22px;font-weight:700;letter-spacing:-.015em;line-height:1.25}
+p{margin:0}
+.sec{padding-block:clamp(80px,10vw,128px)}
+.menta{background:var(--menta)}
+.topo-sec{display:grid;gap:16px;max-width:760px;margin-bottom:56px}
+.topo-sec.centro{margin-inline:auto;text-align:center;justify-items:center}
+.topo-sec p{font-size:20px;color:var(--tinta-2)}
+.olho{display:inline-flex;align-items:center;gap:10px;font-family:var(--f-titulo);font-size:14px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--verde-escuro)}
+.olho::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--degrade);box-shadow:0 0 0 4px rgba(16,208,107,.15)}
+.grad{background:linear-gradient(120deg,#36c94a,#06a854);-webkit-background-clip:text;background-clip:text;color:transparent}
+:focus-visible{outline:3px solid var(--verde);outline-offset:3px;border-radius:8px}
+.rv{transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.rv.fora{transform:translateY(40px)}
+
+/* Botões */
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:var(--f-titulo);font-weight:600;font-size:17px;text-decoration:none;padding:17px 30px;border-radius:999px;white-space:nowrap;transition:transform .2s,box-shadow .2s,background .2s;overflow:hidden;isolation:isolate}
+.btn svg{width:22px;height:22px;flex:none}
+.btn-verde{background:var(--degrade);color:var(--floresta);box-shadow:0 14px 30px -12px rgba(16,208,107,.7)}
+.btn-verde::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(110deg,transparent 30%,rgba(255,255,255,.6) 50%,transparent 70%);transform:translateX(-120%);animation:brilho 3.8s ease-in-out infinite}
+@keyframes brilho{0%,55%{transform:translateX(-120%)}85%,100%{transform:translateX(120%)}}
+.btn-verde:hover{transform:translateY(-2px);box-shadow:0 18px 36px -12px rgba(16,208,107,.85)}
+.btn-borda{background:var(--branco);color:var(--tinta);border:2px solid var(--linha)}
+.btn-borda:hover{border-color:var(--verde);transform:translateY(-2px)}
+.btn-escuro{background:var(--floresta);color:#fff}
+.btn-escuro:hover{transform:translateY(-2px);box-shadow:0 18px 36px -14px rgba(2,30,15,.6)}
+
+/* Cabeçalho */
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:rgba(255,255,255,.88);backdrop-filter:blur(14px) saturate(160%);-webkit-backdrop-filter:blur(14px) saturate(160%);border-bottom:1px solid transparent;transition:border-color .3s,box-shadow .3s}
+header.rolou{border-bottom-color:var(--linha);box-shadow:0 10px 30px -24px rgba(2,30,15,.35)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:24px;height:84px}
+.logo img{height:52px;width:auto;display:block}
+.menu{display:flex;gap:32px;font-size:16.5px;font-weight:500}
+.menu a{text-decoration:none;color:var(--tinta-2);position:relative}
+.menu a::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:2px;border-radius:2px;background:var(--degrade);transform:scaleX(0);transform-origin:left;transition:transform .25s}
+.menu a:hover{color:var(--tinta)}.menu a:hover::after{transform:scaleX(1)}
+.nav-dir{display:flex;align-items:center;gap:18px}
+.entrar{font-size:16.5px;font-weight:600;color:var(--tinta);text-decoration:none}
+.entrar:hover{color:var(--verde-escuro)}
+.nav .btn{padding:13px 22px;font-size:16px}
+@media (max-width:1040px){.menu{display:none}}
+@media (max-width:520px){.logo img{height:42px}.entrar{display:none}.nav .btn span{display:none}.nav .btn{padding:12px 14px}.nav{height:72px}}
+
+/* HERO */
+.hero{position:relative;overflow:hidden;padding-block:clamp(48px,6vw,80px) clamp(90px,10vw,130px);background:radial-gradient(900px 520px at 85% 10%,rgba(157,250,100,.28),transparent 60%),radial-gradient(700px 500px at 0% 100%,rgba(16,208,107,.14),transparent 60%),var(--branco)}
+.hero::after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(2,30,15,.08) 1.2px,transparent 1.2px);background-size:28px 28px;mask-image:radial-gradient(ellipse at 70% 30%,#000,transparent 70%);-webkit-mask-image:radial-gradient(ellipse at 70% 30%,#000,transparent 70%);pointer-events:none}
+#particulas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.hero-grade{position:relative;z-index:1;display:grid;grid-template-columns:1.12fr .88fr;gap:56px;align-items:center}
+.hero-txt{display:grid;gap:28px;min-width:0}
+.selo{display:inline-flex;align-items:center;gap:10px;width:fit-content;padding:7px 18px 7px 7px;border-radius:999px;background:var(--branco);border:1.5px solid var(--linha);box-shadow:0 8px 24px -16px rgba(2,30,15,.3);font-size:15.5px;color:var(--tinta-2)}
+.selo i{width:30px;height:30px;border-radius:50%;background:var(--degrade);display:grid;place-items:center}
+.selo i svg{width:17px;height:17px;color:var(--floresta)}
+.selo b{color:var(--tinta)}
+.hero h1{font-size:clamp(44px,5.8vw,78px);font-weight:800;letter-spacing:-.04em;line-height:1.04}
+.giro{display:inline-grid;vertical-align:bottom;overflow:hidden;height:1.1em}
+.giro span{grid-area:1/1;display:block;background:linear-gradient(120deg,#3fd14c,#06a854);-webkit-background-clip:text;background-clip:text;color:transparent;padding-bottom:.08em;transition:transform .6s cubic-bezier(.7,0,.2,1),opacity .6s}
+.giro span.sai{transform:translateY(-105%);opacity:0}
+.giro span.espera{transform:translateY(105%);opacity:0}
+.hero-txt>p{font-size:clamp(19px,1.7vw,22px);color:var(--tinta-2);max-width:580px;line-height:1.55}
+.acoes{display:flex;flex-wrap:wrap;gap:14px}
+.vantagens{display:flex;flex-wrap:wrap;gap:12px 26px;list-style:none;padding:0;margin:0;font-size:16.5px;font-weight:600;color:var(--tinta)}
+.vantagens li{display:flex;align-items:center;gap:8px}
+.vantagens svg{width:22px;height:22px;color:var(--verde);flex:none}
+
+/* Celular */
+.palco{position:relative;display:grid;place-items:center;padding:56px 0 10px;min-width:0}
+.nichos-cel{position:absolute;top:0;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:3;background:var(--branco);padding:5px;border-radius:999px;border:1.5px solid var(--linha);box-shadow:0 10px 24px -18px rgba(2,30,15,.4)}
+.nichos-cel button{all:unset;cursor:pointer;font-size:14.5px;font-weight:600;color:var(--tinta-2);padding:7px 14px;border-radius:999px;transition:all .3s}
+.nichos-cel button[aria-pressed="true"]{background:var(--floresta);color:#fff}
+.nichos-cel button:focus-visible{outline:3px solid var(--verde)}
+.cel{position:relative;width:min(370px,100%);aspect-ratio:9/18.2;border-radius:48px;background:#0d1611;padding:12px;box-shadow:0 0 0 1px rgba(2,30,15,.1),0 50px 80px -34px rgba(2,30,15,.55),0 0 0 10px rgba(255,255,255,.6);animation:flutua 7s ease-in-out infinite}
+@keyframes flutua{50%{transform:translateY(-12px)}}
+.tela{position:relative;height:100%;border-radius:37px;overflow:hidden;background:#efe9df;display:flex;flex-direction:column}
+.notch{position:absolute;top:9px;left:50%;transform:translateX(-50%);width:100px;height:26px;border-radius:20px;background:#0d1611;z-index:3}
+.tela-topo{display:flex;align-items:center;gap:11px;padding:44px 15px 13px;background:#075e3a;color:#fff}
+.tela-topo .av{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-titulo);font-weight:800;font-size:14px;flex:none;transition:background .4s}
+.tela-topo b{display:block;font-family:var(--f-titulo);font-size:15.5px;line-height:1.2}
+.tela-topo small{font-size:12.5px;opacity:.85}
+.tela-topo .ia{margin-left:auto;font-family:var(--f-mono);font-size:10.5px;background:var(--lima);color:var(--floresta);padding:4px 9px;border-radius:999px;font-weight:700}
+.msgs{flex:1;display:flex;flex-direction:column;justify-content:flex-end;gap:8px;padding:12px;overflow:hidden;transition:opacity .4s;background-image:radial-gradient(rgba(7,94,58,.07) 1px,transparent 1px);background-size:16px 16px}
+.msgs.limpa{opacity:0}
+.m{max-width:85%;padding:9px 12px 6px;border-radius:14px;font-size:14px;line-height:1.42;box-shadow:0 1px 1px rgba(0,0,0,.08);animation:entra .45s cubic-bezier(.2,.8,.2,1.2) both;color:#111}
+.m small{display:block;text-align:right;font-size:10.5px;color:#76857c;margin-top:1px}
+.m.c{background:#fff;border-top-left-radius:4px;align-self:flex-start}
+.m.b{background:#d9fdd3;border-top-right-radius:4px;align-self:flex-end}
+.m.b .q{display:block;font-family:var(--f-mono);font-size:10px;color:var(--verde-escuro);margin-bottom:2px;font-weight:700}
+.chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}
+.chips span{font-size:12.5px;background:#fff;border:1px solid #a9e59a;color:var(--verde-escuro);padding:3px 9px;border-radius:8px;font-weight:700}
+.pix{margin-top:8px;display:flex;align-items:center;gap:8px;background:#fff;border-radius:10px;padding:8px 10px;font-weight:700;font-size:13px;color:var(--verde-escuro)}
+.pix i{width:22px;height:22px;border-radius:6px;background:var(--degrade);flex:none}
+@keyframes entra{from{opacity:0;transform:translateY(12px) scale(.94)}}
+.digitando{align-self:flex-end;background:#d9fdd3;border-radius:14px;padding:11px 14px;display:flex;gap:4px;animation:entra .3s both}
+.digitando i{width:7px;height:7px;border-radius:50%;background:var(--verde-escuro);animation:pula 1s infinite}
+.digitando i:nth-child(2){animation-delay:.15s}.digitando i:nth-child(3){animation-delay:.3s}
+@keyframes pula{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-4px);opacity:1}}
+.compor{display:flex;align-items:center;gap:8px;padding:9px 10px 15px}
+.compor div{flex:1;height:38px;border-radius:20px;background:#fff;font-size:13px;color:#8a978f;display:flex;align-items:center;padding-left:15px}
+.compor span{width:38px;height:38px;border-radius:50%;background:#075e3a;display:grid;place-items:center}
+.compor svg{width:17px;height:17px}
+.toast{position:absolute;z-index:4;display:flex;align-items:center;gap:12px;background:#fff;color:var(--tinta);border-radius:16px;padding:12px 16px;box-shadow:0 24px 50px -20px rgba(2,30,15,.45);border:1px solid var(--linha);font-size:14px;line-height:1.3;transition:transform .5s cubic-bezier(.2,.8,.2,1.3),opacity .4s}
+.toast b{display:block;font-family:var(--f-titulo);font-size:15px}
+.toast .ic{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:var(--degrade);flex:none}
+.toast .ic svg{width:20px;height:20px;color:var(--floresta)}
+.toast.oculto{opacity:0;transform:translateY(14px) scale(.9)}
+.t1{left:-24px;bottom:20%}
+.t2{right:-28px;top:26%}
+@media (max-width:1040px){.hero-grade{grid-template-columns:1fr}.t1{left:0}.t2{right:0}}
+@media (max-width:520px){.toast{display:none}}
+
+/* Faixa Meta */
+.meta{position:relative;z-index:2;margin-top:-64px}
+.meta-box{display:grid;grid-template-columns:auto 1fr auto;gap:32px;align-items:center;background:var(--branco);border:1px solid var(--linha);border-radius:28px;padding:28px 36px;box-shadow:var(--sombra)}
+.meta-sel{position:relative;width:84px;height:84px;display:grid;place-items:center}
+.meta-sel svg.anel{position:absolute;inset:0;animation:girar 18s linear infinite}
+@keyframes girar{to{transform:rotate(360deg)}}
+.meta-sel .nucleo{width:58px;height:58px;border-radius:18px;background:var(--floresta);display:grid;place-items:center}
+.meta-sel .nucleo svg{width:30px;height:30px}
+.meta-box h3{font-size:24px}
+.meta-box p{color:var(--tinta-2);font-size:17px;margin-top:6px;max-width:520px}
+.canais{display:flex;gap:10px;flex-wrap:wrap}
+.canal{display:flex;align-items:center;gap:8px;font-size:15.5px;font-weight:600;padding:10px 14px;border-radius:14px;background:var(--menta);white-space:nowrap}
+.canal svg{width:22px;height:22px;flex:none}
+@media (max-width:1040px){.meta-box{grid-template-columns:auto 1fr}.canais{grid-column:1/-1}}
+@media (max-width:560px){.meta-box{grid-template-columns:1fr;padding:24px}}
+
+/* Como funciona */
+.passos{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;position:relative}
+.passo{position:relative;background:var(--branco);border:1px solid var(--linha);border-radius:28px;padding:30px;display:grid;gap:14px;align-content:start;box-shadow:0 18px 40px -34px rgba(2,30,15,.4)}
+.passo .n{width:44px;height:44px;border-radius:14px;background:var(--floresta);color:var(--lima);font-family:var(--f-titulo);font-weight:800;font-size:19px;display:grid;place-items:center}
+.passo p{color:var(--tinta-2);font-size:17px}
+.cena{height:150px;border-radius:20px;background:var(--menta);position:relative;overflow:hidden;margin-bottom:6px}
+.c1 .bal{position:absolute;left:18px;padding:9px 14px;background:#fff;border-radius:14px 14px 14px 4px;font-size:14.5px;box-shadow:0 6px 14px -8px rgba(0,0,0,.25);animation:sobe 4.5s infinite both}
+.c1 .bal:nth-child(1){top:18px}.c1 .bal:nth-child(2){top:62px;left:52px;animation-delay:.5s}.c1 .bal:nth-child(3){top:104px;left:28px;animation-delay:1s}
+.c1 .bal i{font-style:normal;font-family:var(--f-mono);font-size:11px;color:var(--verde-escuro);margin-right:6px;font-weight:700}
+@keyframes sobe{0%{opacity:0;transform:translateY(16px)}12%,80%{opacity:1;transform:none}100%{opacity:0}}
+.c2 .hub{position:absolute;left:50%;top:50%;width:62px;height:62px;margin:-31px;border-radius:18px;background:var(--floresta);display:grid;place-items:center}
+.c2 .hub svg{width:32px;height:32px}
+.c2 .hub::before{content:"";position:absolute;inset:-14px;border-radius:24px;border:2px dashed rgba(16,208,107,.5);animation:girar 10s linear infinite}
+.c2 .fila{position:absolute;right:14px;display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;background:#fff;padding:5px 10px;border-radius:999px;box-shadow:0 4px 10px -6px rgba(0,0,0,.25);animation:pisca 3s infinite}
+.c2 .fila b{width:8px;height:8px;border-radius:50%;background:var(--verde)}
+.c2 .fila:nth-of-type(2){top:22px}.c2 .fila:nth-of-type(3){top:62px;animation-delay:1s}.c2 .fila:nth-of-type(4){top:102px;animation-delay:2s}
+.c2 .ent{position:absolute;left:14px;top:62px;font-size:13px;font-weight:700;background:#fff;padding:5px 10px;border-radius:999px;animation:corre 3s infinite}
+@keyframes corre{0%{transform:translateX(0);opacity:0}15%{opacity:1}55%{transform:translateX(70px);opacity:0}100%{opacity:0}}
+@keyframes pisca{0%,100%{opacity:.55}30%,60%{opacity:1;transform:scale(1.04)}}
+.c3{display:grid;place-items:center}
+.c3 .venda{background:#fff;border-radius:18px;padding:14px 18px;display:grid;gap:4px;min-width:200px;box-shadow:0 12px 24px -16px rgba(0,0,0,.35);position:relative}
+.c3 .venda small{font-family:var(--f-mono);font-size:11px;color:var(--tinta-2)}
+.c3 .venda b{font-family:var(--f-titulo);font-size:24px;font-variant-numeric:tabular-nums}
+.c3 .venda em{position:absolute;top:-12px;right:-12px;font-style:normal;font-size:12px;font-weight:700;background:var(--degrade);color:var(--floresta);padding:5px 10px;border-radius:999px;animation:carimbo 4s infinite}
+@keyframes carimbo{0%,30%{transform:scale(0) rotate(-20deg)}40%,90%{transform:scale(1) rotate(6deg)}100%{transform:scale(0)}}
+@media (max-width:900px){.passos{grid-template-columns:1fr}}
+
+/* Recursos */
+.recursos{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.rec{position:relative;background:var(--branco);border:1px solid var(--linha);border-radius:26px;padding:32px;display:grid;gap:12px;align-content:start;transition:transform .3s,box-shadow .3s,border-color .3s;overflow:hidden;--mx:50%;--my:50%}
+.rec::before{content:"";position:absolute;inset:0;background:radial-gradient(360px circle at var(--mx) var(--my),rgba(16,208,107,.12),transparent 50%);opacity:0;transition:opacity .3s;pointer-events:none}
+.rec:hover{transform:translateY(-6px);box-shadow:var(--sombra);border-color:#b9dcc4}
+.rec:hover::before{opacity:1}
+.rec .ic{width:58px;height:58px;border-radius:18px;background:var(--menta-2);display:grid;place-items:center;transition:transform .4s cubic-bezier(.2,.8,.2,1.4),background .3s}
+.rec:hover .ic{transform:rotate(-8deg) scale(1.08);background:var(--degrade)}
+.rec .ic svg{width:28px;height:28px;color:var(--verde-escuro)}
+.rec:hover .ic svg{color:var(--floresta)}
+.rec p{color:var(--tinta-2);font-size:17px}
+.tambem{margin-top:32px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px 18px;font-size:17px;color:var(--tinta-2)}
+.tambem b{color:var(--tinta)}
+@media (max-width:960px){.recursos{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:600px){.recursos{grid-template-columns:1fr}}
+
+/* Painel ao vivo */
+.painel-sec{display:grid;grid-template-columns:.8fr 1.2fr;gap:56px;align-items:center}
+.painel-txt{display:grid;gap:22px;min-width:0}
+.painel-txt>p{font-size:20px;color:var(--tinta-2)}
+.lista-ok{list-style:none;margin:0;padding:0;display:grid;gap:16px}
+.lista-ok li{display:grid;grid-template-columns:30px 1fr;gap:12px;font-size:17.5px}
+.lista-ok li::before{content:"";width:30px;height:30px;border-radius:10px;background:var(--floresta) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%239dfa64' d='M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z'/%3E%3C/svg%3E") center/18px no-repeat}
+.lista-ok b{display:block;font-family:var(--f-titulo);font-weight:600}
+.lista-ok span{color:var(--tinta-2)}
+.janela{background:var(--branco);border:1px solid var(--linha);border-radius:26px;box-shadow:0 40px 80px -40px rgba(2,30,15,.45);overflow:hidden;min-width:0}
+.jan-barra{display:flex;align-items:center;gap:8px;padding:14px 18px;background:var(--floresta);color:#fff;font-family:var(--f-titulo);font-size:15px;font-weight:600}
+.jan-barra i{width:11px;height:11px;border-radius:50%;background:rgba(255,255,255,.25)}
+.jan-barra span{margin-left:8px}
+.jan-barra em{margin-left:auto;font-style:normal;font-family:var(--f-mono);font-size:12px;color:var(--lima);display:flex;align-items:center;gap:6px}
+.jan-barra em::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--lima);animation:pisca 1.6s infinite}
+.jan-corpo{display:grid;grid-template-columns:270px 1fr;min-height:420px}
+.tickets{border-right:1px solid var(--linha);background:#fafdfb;padding:10px;display:flex;flex-direction:column;gap:6px;overflow:hidden}
+.tk{display:grid;grid-template-columns:42px 1fr;gap:10px;align-items:center;padding:10px;border-radius:14px;transition:background .3s;animation:entra .5s both}
+.tk.ativo{background:var(--menta-2)}
+.tk .av{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-family:var(--f-titulo);font-weight:700;font-size:14px;color:#fff}
+.tk b{display:block;font-size:15px;font-weight:700;line-height:1.2}
+.tk span{display:block;font-size:13px;color:var(--tinta-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tk em{font-style:normal;display:inline-block;margin-top:4px;font-size:11.5px;font-weight:700;padding:2px 8px;border-radius:999px;background:#e6f7ec;color:var(--verde-escuro)}
+.conv{display:flex;flex-direction:column;min-width:0}
+.conv-topo{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 18px;border-bottom:1px solid var(--linha);font-size:14.5px;flex-wrap:wrap}
+.conv-topo b{font-family:var(--f-titulo);font-size:16px}
+.conv-topo span{color:var(--tinta-2)}
+.conv-msgs{flex:1;display:flex;flex-direction:column;justify-content:flex-end;gap:10px;padding:16px 18px;background:#f6f9f7}
+.pm{max-width:78%;padding:10px 14px;border-radius:14px;font-size:15px;line-height:1.45;animation:entra .45s both}
+.pm small{display:block;font-family:var(--f-mono);font-size:10.5px;font-weight:700;margin-bottom:2px;color:var(--tinta-2)}
+.pm.c{background:#fff;border:1px solid var(--linha);align-self:flex-start}
+.pm.a{background:var(--floresta);color:#fff;align-self:flex-end}
+.pm.a small{color:var(--lima)}
+.pm.s{align-self:center;background:transparent;font-size:13px;color:var(--tinta-2);padding:4px 12px;border:1px dashed #b9d7c3;border-radius:999px}
+@media (max-width:1040px){.painel-sec{grid-template-columns:1fr}}
+@media (max-width:640px){.jan-corpo{grid-template-columns:1fr}.tickets{display:none}}
+
+/* Segmentos */
+.abas{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-bottom:34px}
+.aba{all:unset;cursor:pointer;position:relative;overflow:hidden;display:flex;align-items:center;gap:8px;font-family:var(--f-titulo);font-weight:600;font-size:16.5px;padding:13px 22px;border-radius:999px;background:var(--branco);border:1.5px solid var(--linha);color:var(--tinta-2);transition:all .3s}
+.aba:hover{color:var(--tinta);border-color:#b9dcc4}
+.aba[aria-selected="true"]{background:var(--floresta);border-color:var(--floresta);color:#fff}
+.aba .barra{position:absolute;left:0;bottom:0;height:3px;width:0;background:var(--degrade)}
+.aba[aria-selected="true"] .barra{animation:enche var(--dur,7s) linear forwards}
+@keyframes enche{to{width:100%}}
+.aba:focus-visible{outline:3px solid var(--verde);outline-offset:2px}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:stretch}
+.seg-txt{background:var(--branco);border:1px solid var(--linha);border-radius:28px;padding:clamp(28px,3.6vw,44px);display:grid;gap:18px;align-content:start;min-width:0}
+.seg-txt .emo{width:64px;height:64px;border-radius:20px;background:var(--degrade);display:grid;place-items:center;font-size:32px}
+.seg-txt h3{font-size:clamp(26px,2.6vw,32px);font-weight:800}
+.seg-txt>p{color:var(--tinta-2);font-size:18px}
+.seg-txt ul{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+.seg-txt li{display:grid;grid-template-columns:24px 1fr;gap:12px;font-size:17px}
+.seg-txt li::before{content:"";width:24px;height:24px;margin-top:2px;border-radius:8px;background:var(--menta-2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%2306803f' d='M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z'/%3E%3C/svg%3E") center/16px no-repeat}
+.seg-vis{position:relative;border-radius:28px;padding:clamp(24px,3vw,36px);overflow:hidden;display:grid;gap:12px;align-content:center;min-width:0;background:linear-gradient(160deg,#eafbef,#d3f5df)}
+.ev{display:grid;grid-template-columns:62px 1fr auto;gap:12px;align-items:center;background:#fff;border-radius:16px;padding:14px 16px;font-size:16px;box-shadow:0 10px 22px -18px rgba(2,30,15,.4);animation:desliza .6s cubic-bezier(.2,.8,.2,1) both}
+.ev time{font-family:var(--f-mono);font-size:13.5px;font-weight:700;color:var(--verde-escuro);font-variant-numeric:tabular-nums}
+.ev em{font-style:normal;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--floresta);color:var(--lima);white-space:nowrap}
+.ev em.h{background:var(--menta-2);color:var(--verde-escuro)}
+@keyframes desliza{from{opacity:0;transform:translateX(30px)}}
+@media (max-width:880px){.seg{grid-template-columns:1fr}}
+@media (max-width:440px){.ev{grid-template-columns:54px 1fr}.ev em{grid-column:2;justify-self:start}}
+
+/* Módulos */
+.modulos{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.mod{background:var(--branco);border:1px solid var(--linha);border-radius:28px;padding:30px;display:grid;gap:12px;align-content:start;transition:transform .3s,box-shadow .3s}
+.mod:hover{transform:translateY(-6px);box-shadow:var(--sombra)}
+.mod-vis{height:130px;border-radius:20px;background:var(--floresta);position:relative;overflow:hidden;margin-bottom:8px}
+.mod .rot{font-family:var(--f-titulo);font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--verde-escuro)}
+.mod h3{font-size:26px;font-weight:800}
+.mod p{color:var(--tinta-2);font-size:17px}
+.bi svg{position:absolute;inset:18px;width:calc(100% - 36px);height:calc(100% - 36px)}
+.bi path{fill:none;stroke:url(#gm);stroke-width:4;stroke-linecap:round;stroke-dasharray:420;stroke-dashoffset:420;animation:traca 4.5s ease-in-out infinite}
+@keyframes traca{40%,85%{stroke-dashoffset:0}100%{stroke-dashoffset:-420}}
+.st{display:flex;align-items:center;justify-content:center;gap:16px;height:100%}
+.st span{width:60px;height:60px;border-radius:50%;padding:3px;background:conic-gradient(var(--lima),var(--verde),var(--lima));animation:girar 4s linear infinite}
+.st span:nth-child(2){animation-duration:5.5s;animation-direction:reverse}.st span:nth-child(3){animation-duration:7s}
+.st span i{display:block;width:100%;height:100%;border-radius:50%;background:var(--floresta-2);border:3px solid var(--floresta)}
+.nfc{display:grid;place-items:center;height:100%}
+.nfc span{position:absolute;width:46px;height:46px;border-radius:50%;border:2px solid var(--lima);opacity:0;animation:onda 2.4s ease-out infinite}
+.nfc span:nth-child(2){animation-delay:.8s}.nfc span:nth-child(3){animation-delay:1.6s}
+.nfc b{position:relative;width:54px;height:54px;border-radius:14px;background:var(--degrade);display:grid;place-items:center;font-family:var(--f-mono);font-size:12px;color:var(--floresta)}
+@keyframes onda{0%{transform:scale(.6);opacity:.9}100%{transform:scale(3.2);opacity:0}}
+@media (max-width:900px){.modulos{grid-template-columns:1fr}}
+
+/* Planos */
+.planos{display:grid;grid-template-columns:1.05fr 1fr;gap:24px}
+.plano{position:relative;background:var(--floresta);color:#e9f6ed;border-radius:32px;padding:40px;display:grid;gap:22px;align-content:start;overflow:hidden}
+.plano::after{content:"";position:absolute;right:-110px;top:-110px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(157,250,100,.35),transparent 65%);animation:vagar 9s ease-in-out infinite alternate;pointer-events:none}
+@keyframes vagar{to{transform:translate(-60px,50px) scale(1.15)}}
+.plano .rot{font-family:var(--f-titulo);font-size:14px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--lima)}
+.preco{display:flex;align-items:baseline;gap:8px;font-family:var(--f-titulo);color:#fff}
+.preco small{font-size:18px;color:#a9c9b5;font-weight:500}
+.preco b{font-size:68px;font-weight:800;letter-spacing:-.05em;line-height:1;font-variant-numeric:tabular-nums}
+.plano ul{list-style:none;margin:0;padding:0;display:grid;gap:12px;font-size:17.5px;position:relative;z-index:1}
+.plano li{display:grid;grid-template-columns:22px 1fr;gap:12px}
+.plano li::before{content:"";width:22px;height:22px;margin-top:3px;border-radius:50%;background:var(--degrade)}
+.plano .btn{width:fit-content;position:relative;z-index:1}
+.adic{background:var(--branco);border:1px solid var(--linha);border-radius:32px;padding:36px;display:grid;gap:14px;align-content:start}
+.adic h3{font-size:24px}
+.adic>p{color:var(--tinta-2);font-size:17px}
+.tab{width:100%;border-collapse:collapse;font-size:17px}
+.tab td{padding:14px 0;border-bottom:1px dashed var(--linha)}
+.tab td:last-child{text-align:right;font-weight:700;color:var(--verde-escuro);white-space:nowrap;padding-left:12px;font-variant-numeric:tabular-nums}
+.tab tr:last-child td{border-bottom:0}
+@media (max-width:880px){.planos{grid-template-columns:1fr}}
+.plano,.adic{min-width:0}
+@media (max-width:520px){.plano,.adic{padding:28px 22px}.tab td:last-child{white-space:normal}.preco b{font-size:56px}}
+
+/* Parceiros */
+.parceiros{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.parc{border-radius:26px;padding:28px;display:grid;gap:16px;align-content:start;text-decoration:none;border:1px solid var(--linha);background:var(--branco);transition:transform .3s,box-shadow .3s}
+a.parc:hover{transform:translateY(-6px);box-shadow:var(--sombra)}
+.parc .tipo{width:fit-content;font-family:var(--f-titulo);font-size:12.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:5px 12px;border-radius:999px}
+.t-parc{background:#e3f7ea;color:var(--verde-escuro)}
+.t-cli{background:#fff0d9;color:#965800}
+.lp{height:84px;border-radius:18px;display:flex;align-items:center;gap:14px;padding:0 20px}
+.lp .lic{width:48px;height:48px;border-radius:13px;display:grid;place-items:center;flex:none;font-family:var(--f-titulo);font-weight:800;font-size:19px}
+.lp b{font-family:var(--f-titulo);font-weight:700;font-size:22px;letter-spacing:-.02em;line-height:1.05}
+.lp b small{display:block;font-family:var(--f-texto);font-weight:700;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;opacity:.75}
+.parc p{color:var(--tinta-2);font-size:17px}
+.parc .ir{font-family:var(--f-titulo);font-weight:600;font-size:16px;color:var(--verde-escuro)}
+.lp-slj{background:#eef3ff}.lp-slj .lic{background:#0f1b3d;color:#ffd23a}.lp-slj b{color:#0f1b3d}.lp-slj b i{font-style:normal;color:#2f6bff}
+.lp-map{background:#07120c}.lp-map .lic{background:rgba(25,245,138,.12);color:#19f58a;border:1px solid rgba(25,245,138,.4)}.lp-map b{color:#fff;letter-spacing:.12em;font-size:18px}.lp-map b i{font-style:normal;color:#19f58a}
+.lp-otica{background:#eef2fb}.lp-otica .lic{background:#1d3f9a;color:#fff}.lp-otica b{color:#1d3f9a}
+.lp-nfc,.lp-status{background:var(--menta)}.lp-nfc .lic{background:var(--floresta);color:var(--lima)}.lp-status .lic{background:var(--degrade);color:var(--floresta)}.lp-nfc b,.lp-status b{color:var(--floresta)}
+.lp-mais{background:repeating-linear-gradient(135deg,var(--menta) 0 12px,#e6f4ea 12px 24px)}.lp-mais .lic{background:#fff;color:var(--verde-escuro);border:2px dashed var(--verde)}.lp-mais b{color:var(--floresta)}
+@media (max-width:960px){.parceiros{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:600px){.parceiros{grid-template-columns:1fr}}
+
+/* FAQ e políticas */
+.faq{max-width:860px;margin-inline:auto;display:grid;gap:14px}
+details{background:var(--branco);border:1px solid var(--linha);border-radius:20px;padding:0 26px;transition:box-shadow .3s}
+details[open]{box-shadow:0 18px 40px -30px rgba(2,30,15,.4)}
+summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:22px 0;font-family:var(--f-titulo);font-weight:600;font-size:19px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";flex:none;width:34px;height:34px;border-radius:50%;background:var(--menta-2);color:var(--verde-escuro);display:grid;place-items:center;font-size:22px;transition:transform .3s}
+details[open] summary::after{transform:rotate(45deg)}
+details .corpo{padding-bottom:24px;color:var(--tinta-2);font-size:17px;display:grid;gap:12px}
+details .corpo h4{margin:6px 0 0;font-family:var(--f-titulo);font-size:16px;color:var(--tinta)}
+.legal-sec{padding-block:0 clamp(64px,8vw,96px)}
+.legal-sec .faq{max-width:var(--larg)}
+
+/* CTA */
+.cta{position:relative;overflow:hidden;display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center;background:var(--degrade);color:var(--floresta);border-radius:36px;padding:clamp(36px,5vw,68px)}
+.cta::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(2,30,15,.12) 1.4px,transparent 1.4px);background-size:22px 22px;mask-image:linear-gradient(90deg,transparent,#000);-webkit-mask-image:linear-gradient(90deg,transparent,#000);pointer-events:none}
+.cta>*{position:relative}
+.cta h2{font-size:clamp(32px,4.2vw,52px)}
+.cta p{font-size:20px;margin-top:12px;color:#073a1f}
+.cta .tel{display:block;margin-top:16px;font-family:var(--f-titulo);font-weight:700;font-size:20px}
+@media (max-width:780px){.cta{grid-template-columns:1fr}}
+
+/* Rodapé */
+footer{background:var(--floresta);color:#cfe3d6;padding-block:64px 36px}
+.rod{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:40px}
+.rod img{height:56px;width:auto}
+.rod h4{font-family:var(--f-titulo);font-size:15px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#fff;margin:0 0 16px}
+.rod ul{list-style:none;margin:0;padding:0;display:grid;gap:10px;font-size:16.5px}
+.rod a{text-decoration:none;color:#cfe3d6}
+.rod a:hover{color:var(--lima)}
+.empresa{display:grid;gap:14px;align-content:start;font-size:16px;line-height:1.6}
+.empresa b{color:#fff}
+.legal{margin-top:48px;padding-top:24px;border-top:1px solid rgba(157,250,100,.15);display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;font-size:14.5px;color:#93b3a0}
+@media (max-width:860px){.rod{grid-template-columns:1fr 1fr}.rod>div:first-child{grid-column:1/-1}}
+@media (max-width:520px){.rod{grid-template-columns:1fr}}
+
+.zap-flut{position:fixed;right:calc(20px + env(safe-area-inset-right,0px));bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:40;width:62px;height:62px;border-radius:50%;background:#25d366;display:grid;place-items:center;box-shadow:0 14px 30px -10px rgba(37,211,102,.8);text-decoration:none}
+.zap-flut svg{width:32px;height:32px;color:#fff}
+.zap-flut::before{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid #25d366;animation:onda 2.4s ease-out infinite}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}.rv.fora{transform:none}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="gm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9dfa64"/><stop offset="1" stop-color="#10d06b"/></linearGradient>
+    <symbol id="zap" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7a2.8 2.8 0 0 0 1.8-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.2-.2-.5-.3z"/></symbol>
+    <symbol id="ok" viewBox="0 0 24 24"><path fill="currentColor" d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></symbol>
+    <symbol id="ig" viewBox="0 0 24 24"><path fill="currentColor" d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zM17.3 5.5a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4zM12 2c-2.7 0-3 0-4.1.1C4.3 2.2 2.2 4.3 2.1 7.9 2 9 2 9.3 2 12s0 3 .1 4.1c.1 3.6 2.2 5.7 5.8 5.8 1.1.1 1.4.1 4.1.1s3 0 4.1-.1c3.6-.1 5.7-2.2 5.8-5.8.1-1.1.1-1.4.1-4.1s0-3-.1-4.1c-.1-3.6-2.2-5.7-5.8-5.8C15 2 14.7 2 12 2zm0 1.8c2.7 0 3 0 4 .1 2.6.1 3.9 1.4 4 4 .1 1 .1 1.4.1 4s0 3-.1 4c-.1 2.6-1.4 3.9-4 4-1 .1-1.4.1-4 .1s-3 0-4-.1c-2.6-.1-3.9-1.4-4-4-.1-1-.1-1.4-.1-4s0-3 .1-4c.1-2.6 1.4-3.9 4-4 1-.1 1.3-.1 4-.1z"/></symbol>
+    <symbol id="fb" viewBox="0 0 24 24"><path fill="currentColor" d="M22 12a10 10 0 1 0-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.3v7A10 10 0 0 0 22 12z"/></symbol>
+    <symbol id="web" viewBox="0 0 24 24"><path fill="currentColor" d="M20 3H4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h4l4 3 4-3h4a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm0 13h-4.7L12 18.5 8.7 16H4V5h16zM7 9h10v2H7zm0-3h10v2H7zm0 6h6v2H7z"/></symbol>
+  </defs>
+</svg>
+
+<header class="faixa" id="cabecalho">
+  <div class="caixa nav">
+    <a class="logo" href="#topo" aria-label="ChatSolution, início"><img src="{{LOGO}}" alt="ChatSolution Tecnologia" width="164" height="52"></a>
+    <nav class="menu" aria-label="Seções">
+      <a href="#como-funciona">Como funciona</a><a href="#recursos">Recursos</a><a href="#segmentos">Segmentos</a><a href="#planos">Planos</a><a href="#parceiros">Parceiros</a><a href="#duvidas">Dúvidas</a>
+    </nav>
+    <div class="nav-dir">
+      <a class="entrar" href="https://painel.chatsollution.com" target="_blank" rel="noopener">Entrar</a>
+      <a class="btn btn-verde" href="https://wa.me/5521999665064?text=Ol%C3%A1!%20Quero%20conhecer%20a%20ChatSolution" target="_blank" rel="noopener"><svg><use href="#zap"/></svg><span>Falar no WhatsApp</span></a>
+    </div>
+  </div>
+</header>
+
+<main id="topo">
+<section class="hero faixa">
+  <canvas id="particulas" aria-hidden="true"></canvas>
+  <div class="caixa hero-grade">
+    <div class="hero-txt">
+      <span class="selo"><i><svg><use href="#ok"/></svg></i>Parceiro oficial · <b>Meta Tech Provider</b></span>
+      <h1>Seu WhatsApp <span class="giro" id="giro"><span>atendendo</span><span class="espera">agendando</span><span class="espera">vendendo</span><span class="espera">organizado</span></span><br>24 horas por dia.</h1>
+      <p>Toda a sua equipe atendendo no mesmo número, com uma inteligência artificial que responde em segundos, marca horário e não deixa nenhum cliente esperando.</p>
+      <div class="acoes">
+        <a class="btn btn-verde" href="https://wa.me/5521999665064?text=Ol%C3%A1!%20Quero%20ver%20a%20ChatSolution%20funcionando" target="_blank" rel="noopener"><svg><use href="#zap"/></svg>Quero ver funcionando</a>
+        <a class="btn btn-borda" href="#como-funciona">Como funciona</a>
+      </div>
+      <ul class="vantagens">
+        <li><svg><use href="#ok"/></svg>API oficial do WhatsApp</li>
+        <li><svg><use href="#ok"/></svg>Seu número continua o mesmo</li>
+        <li><svg><use href="#ok"/></svg>Implantação com a gente</li>
+      </ul>
+    </div>
+
+    <div class="palco">
+      <div class="nichos-cel" role="group" aria-label="Exemplos por segmento">
+        <button type="button" data-n="0" aria-pressed="true">Barbearia</button>
+        <button type="button" data-n="1" aria-pressed="false">Farmácia</button>
+        <button type="button" data-n="2" aria-pressed="false">Ótica</button>
+      </div>
+      <div class="cel" aria-label="Demonstração: conversa no WhatsApp atendida pela IA">
+        <div class="tela">
+          <div class="notch"></div>
+          <div class="tela-topo">
+            <div class="av" id="cel-av" style="background:#3b2a1d;color:#f0c27b">BN</div>
+            <div><b id="cel-nome">Barbearia Navalha</b><small id="cel-sub">online</small></div>
+            <span class="ia">IA ativa</span>
+          </div>
+          <div class="msgs" id="msgs">
+            <div class="m c">Fala! Tem horário pra corte e barba hoje?<small>16:02</small></div>
+            <div class="m b"><span class="q">Assistente IA</span>Tem sim! Hoje com o Léo:<div class="chips"><span>16:30</span><span>17:30</span><span>19:00</span></div><small>16:02</small></div>
+            <div class="m c">17:30 fechou<small>16:03</small></div>
+            <div class="m b"><span class="q">Assistente IA</span>Marcado ✅ Corte + barba às 17:30 com o Léo. Te lembro 1h antes.<small>16:03</small></div>
+          </div>
+          <div class="compor"><div>Mensagem</div><span><svg viewBox="0 0 24 24"><path fill="#fff" d="M2 21 23 12 2 3v7l15 2-15 2z"/></svg></span></div>
+        </div>
+      </div>
+      <div class="toast t1" id="toast1"><div class="ic"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 16H5V9h14zm-8.5-2.5-3-3 1.4-1.4 1.6 1.6 4.6-4.6 1.4 1.4z"/></svg></div><div><b id="toast1-t">Agenda atualizada</b><span id="toast1-s">Corte + barba · 17:30</span></div></div>
+      <div class="toast t2" id="toast2"><div class="ic"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M13 2 4 14h6l-1 8 9-12h-6z"/></svg></div><div><b>Respondido em 2 s</b><span>cliente não esperou</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="faixa meta">
+  <div class="caixa meta-box rv">
+    <div class="meta-sel" aria-hidden="true">
+      <svg class="anel" viewBox="0 0 84 84"><circle cx="42" cy="42" r="39" fill="none" stroke="url(#gm)" stroke-width="3" stroke-dasharray="7 8" stroke-linecap="round"/></svg>
+      <div class="nucleo"><svg viewBox="0 0 24 24"><path fill="url(#gm)" d="M12 2 4 5v6c0 5 3.4 9.7 8 11 4.6-1.3 8-6 8-11V5zm-1.5 14.5-4-4 1.4-1.4 2.6 2.6 5.6-5.6 1.4 1.4z"/></svg></div>
+    </div>
+    <div>
+      <h3>Tech Provider oficial da Meta</h3>
+      <p>Seu número conectado direto na API oficial do WhatsApp: estável, seguro e sem depender de celular ligado.</p>
+    </div>
+    <div class="canais">
+      <span class="canal"><svg style="color:#25d366"><use href="#zap"/></svg>WhatsApp</span>
+      <span class="canal"><svg style="color:#d62976"><use href="#ig"/></svg>Instagram</span>
+      <span class="canal"><svg style="color:#1877f2"><use href="#fb"/></svg>Facebook</span>
+      <span class="canal"><svg style="color:#06803f"><use href="#web"/></svg>Chat do site</span>
+    </div>
+  </div>
+</section>
+
+<section class="sec faixa" id="como-funciona">
+  <div class="caixa">
+    <div class="topo-sec centro rv">
+      <span class="olho">Como funciona</span>
+      <h2>Do “oi” do cliente até a venda fechada.</h2>
+      <p>Sem trocar de número e sem complicação. É o WhatsApp que você já usa, só que organizado.</p>
+    </div>
+    <div class="passos">
+      <div class="passo rv">
+        <div class="cena c1" aria-hidden="true"><div class="bal"><i>WhatsApp</i>Oi, qual o valor?</div><div class="bal"><i>Instagram</i>Tem horário hoje?</div><div class="bal"><i>Site</i>Entregam no centro?</div></div>
+        <span class="n">1</span>
+        <h3>O cliente chama</h3>
+        <p>Pelo WhatsApp, Instagram, Facebook ou pelo chat do seu site. Tudo cai num lugar só.</p>
+      </div>
+      <div class="passo rv">
+        <div class="cena c2" aria-hidden="true"><span class="ent">💬 nova</span><div class="hub"><svg viewBox="0 0 24 24"><path fill="url(#gm)" d="M12 2a2 2 0 0 1 2 2c0 .7-.4 1.4-1 1.7V7h5a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-8a3 3 0 0 1 3-3h5V5.7A2 2 0 0 1 12 2zM9 12a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm6 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/></svg></div><span class="fila"><b></b>Vendas</span><span class="fila"><b></b>Agenda</span><span class="fila"><b></b>Suporte</span></div>
+        <span class="n">2</span>
+        <h3>A IA responde e organiza</h3>
+        <p>Responde na hora, tira dúvidas, marca horário e manda para o setor certo da sua equipe.</p>
+      </div>
+      <div class="passo rv">
+        <div class="cena c3" aria-hidden="true"><div class="venda"><small>Oportunidade · Carla</small><b>R$ 890,00</b><em>Fechado ✓</em></div></div>
+        <span class="n">3</span>
+        <h3>Sua equipe fecha</h3>
+        <p>O atendente recebe o cliente com todo o histórico e só entra para fechar a venda.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec faixa menta" id="recursos">
+  <div class="caixa">
+    <div class="topo-sec rv">
+      <span class="olho">Recursos</span>
+      <h2>Tudo o que o seu WhatsApp precisa para <span class="grad">vender mais.</span></h2>
+    </div>
+    <div class="recursos">
+      <div class="rec rv"><div class="ic"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M16 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-8 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm0 2c-2.3 0-7 1.2-7 3.5V19h14v-2.5C15 14.2 10.3 13 8 13zm8 0h-1a4.2 4.2 0 0 1 2 3.5V19h6v-2.5c0-2.3-4.7-3.5-7-3.5z"/></svg></div><h3>Vários atendentes, um número</h3><p>Cada pessoa com seu login, e você vê quem está atendendo e quem está esperando.</p></div>
+      <div class="rec rv"><div class="ic"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a2 2 0 0 1 2 2c0 .7-.4 1.4-1 1.7V7h5a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-8a3 3 0 0 1 3-3h5V5.7A2 2 0 0 1 12 2zM9 12a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm6 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/></svg></div><h3>Inteligência artificial</h3><p>Responde com as informações da sua empresa: preço, horário, endereço e estoque.</p></div>
+      <div class="rec rv"><div class="ic"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 16H5V9h14zM7 11h5v5H7z"/></svg></div><h3>Agendamento automático</h3><p>A IA mostra os horários livres, marca e manda lembrete antes. Menos falta, menos ligação.</p></div>
+      <div class="rec rv"><div class="ic"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M4 3h6v6H4zm10 0h6v6h-6zM4 15h6v6H4zm13-2h2v3h3v2h-3v3h-2v-3h-3v-2h3zM7 9h2v3h6V9h2v5H7z"/></svg></div><h3>Chatbot e setores</h3><p>O cliente escolhe o assunto e cai direto na fila certa: vendas, financeiro ou suporte.</p></div>
+      <div class="rec rv"><div class="ic"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M3 11v2h3l5 5V6L6 11zm13.5 1A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg></div><h3>Campanhas</h3><p>Envie promoções e avisos para listas de clientes, com modelos aprovados pela Meta.</p></div>
+      <div class="rec rv"><div class="ic"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M3 4h4v16H3zm7 0h4v11h-4zm7 0h4v7h-4z"/></svg></div><h3>Funil de vendas (CRM)</h3><p>Cada negociação num quadro, do primeiro contato até a venda, com resultado por vendedor.</p></div>
+    </div>
+    <p class="tambem rv"><b>E mais:</b> respostas rápidas · etiquetas · pesquisa de satisfação · relatórios · integração por API</p>
+  </div>
+</section>
+
+<section class="sec faixa">
+  <div class="caixa painel-sec">
+    <div class="painel-txt rv">
+      <span class="olho">O painel</span>
+      <h2>Sua equipe inteira no mesmo WhatsApp.</h2>
+      <p>Chega de celular passando de mão em mão. Cada conversa tem dono, fila e histórico.</p>
+      <ul class="lista-ok">
+        <li><div><b>Nenhum cliente esquecido</b><span>Você vê na hora quem está esperando resposta.</span></div></li>
+        <li><div><b>Histórico completo</b><span>Quem atendeu, o que foi dito e como terminou.</span></div></li>
+        <li><div><b>Você no controle</b><span>Acompanhe tudo pelo computador ou pelo celular.</span></div></li>
+      </ul>
+    </div>
+    <div class="janela rv" aria-label="Exemplo do painel de atendimentos">
+      <div class="jan-barra"><i></i><i></i><i></i><span>Atendimentos</span><em>ao vivo</em></div>
+      <div class="jan-corpo">
+        <div class="tickets" id="tickets"></div>
+        <div class="conv">
+          <div class="conv-topo"><b id="conv-nome">Ana Martins</b><span id="conv-info">Fila Vendas · Atendente: Carla</span></div>
+          <div class="conv-msgs" id="conv-msgs"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec faixa menta" id="segmentos">
+  <div class="caixa">
+    <div class="topo-sec centro rv">
+      <span class="olho">Segmentos</span>
+      <h2>Funciona para o seu tipo de negócio.</h2>
+      <p>Barbearia, farmácia, ótica, clínica, delivery ou serviços: a gente configura do jeito da sua rotina.</p>
+    </div>
+    <div class="abas" role="tablist" aria-label="Segmentos" id="abas"></div>
+    <div class="seg" role="tabpanel">
+      <div class="seg-txt">
+        <div class="emo" id="seg-emo">💈</div>
+        <h3 id="seg-tit">Barbearias</h3>
+        <p id="seg-desc">A IA marca horário por barbeiro, lembra o cliente e chama de volta quem sumiu.</p>
+        <ul id="seg-lista"><li>Agenda por barbeiro, direto no WhatsApp</li><li>Lembrete automático antes do horário</li><li>Campanha para quem não volta há 30 dias</li></ul>
+      </div>
+      <div class="seg-vis" id="seg-tempo">
+        <div class="ev"><time>16:02</time><span>Cliente pede corte + barba</span><em>WhatsApp</em></div>
+        <div class="ev"><time>16:03</time><span>IA marca 17:30 com o Léo</span><em>pela IA</em></div>
+        <div class="ev"><time>16:30</time><span>Lembrete enviado</span><em>automático</em></div>
+        <div class="ev"><time>18:10</time><span>Nota 5 na pesquisa</span><em>pesquisa</em></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec faixa" id="modulos">
+  <div class="caixa">
+    <div class="topo-sec rv">
+      <span class="olho">Só na ChatSolution</span>
+      <h2>Ferramentas extras, dentro do mesmo painel.</h2>
+      <p>Módulos próprios que abrem com o mesmo login. Você liga só o que fizer sentido.</p>
+    </div>
+    <div class="modulos">
+      <div class="mod rv">
+        <div class="mod-vis bi"><svg viewBox="0 0 200 80" preserveAspectRatio="none"><path d="M0 70 L30 58 L60 62 L90 40 L120 46 L150 22 L200 8"/></svg></div>
+        <span class="rot">Análise com IA</span>
+        <h3>BI Comercial</h3>
+        <p>Veja quem vendeu mais, onde as vendas travam e um resumo do dia em linguagem simples.</p>
+      </div>
+      <div class="mod rv">
+        <div class="mod-vis"><div class="st"><span><i></i></span><span><i></i></span><span><i></i></span></div></div>
+        <span class="rot">Status automático</span>
+        <h3>HBT Status</h3>
+        <p>Seu Status do WhatsApp postado sozinho, todo dia, no horário que você escolher.</p>
+      </div>
+      <div class="mod rv">
+        <div class="mod-vis"><div class="nfc"><span></span><span></span><span></span><b>NFC</b></div></div>
+        <span class="rot">Avaliações no Google</span>
+        <h3>HBT NFC</h3>
+        <p>O cliente aproxima o celular da placa e cai direto na avaliação da sua empresa no Google.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec faixa menta" id="planos">
+  <div class="caixa">
+    <div class="topo-sec centro rv">
+      <span class="olho">Planos</span>
+      <h2>Você paga só pelo que usa.</h2>
+      <p>Comece pelo Plano Base e adicione o que sua operação pedir.</p>
+    </div>
+    <div class="planos">
+      <div class="plano rv">
+        <span class="rot">Plano Base</span>
+        <div class="preco"><small>R$</small><b>150</b><small>/mês</small></div>
+        <ul>
+          <li>1 conexão de WhatsApp</li>
+          <li>3 atendentes no mesmo número</li>
+          <li>Quadro de atendimentos (Kanban)</li>
+          <li>Chat interno da equipe</li>
+          <li>Etiquetas, respostas rápidas e chatbot de setores</li>
+        </ul>
+        <a class="btn btn-verde" href="https://wa.me/5521999665064?text=Ol%C3%A1!%20Quero%20montar%20meu%20plano%20ChatSolution" target="_blank" rel="noopener"><svg><use href="#zap"/></svg>Montar meu plano</a>
+      </div>
+      <div class="adic rv">
+        <h3>Adicionais</h3>
+        <p>Some ao Plano Base o que fizer sentido para você.</p>
+        <table class="tab"><tbody>
+          <tr><td>Atendente extra</td><td>+ R$ 25/mês</td></tr>
+          <tr><td>Conexão extra</td><td>+ R$ 55/mês</td></tr>
+          <tr><td>Agendamentos</td><td>+ R$ 25/mês</td></tr>
+          <tr><td>Campanhas</td><td>+ R$ 25/mês</td></tr>
+          <tr><td>Inteligência artificial</td><td>a partir de R$ 99,90</td></tr>
+          <tr><td>Relatórios</td><td>a partir de R$ 59,90</td></tr>
+          <tr><td>API oficial da Meta</td><td>R$ 250/mês</td></tr>
+        </tbody></table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec faixa" id="parceiros">
+  <div class="caixa">
+    <div class="topo-sec rv">
+      <span class="olho">Parceiros e clientes</span>
+      <h2>Quem já atende com a ChatSolution.</h2>
+    </div>
+    <div class="parceiros">
+      <a class="parc rv" href="https://sualojaja.com.br" target="_blank" rel="noopener">
+        <span class="tipo t-parc">Parceiro</span>
+        <div class="lp lp-slj"><span class="lic">S</span><b>Sua Loja <i>Já</i></b></div>
+        <p>Delivery sem comissão por pedido, com pedidos e WhatsApp no mesmo painel.</p>
+        <span class="ir">Conhecer →</span>
+      </a>
+      <a class="parc rv" href="https://maprastreadores.com" target="_blank" rel="noopener">
+        <span class="tipo t-cli">Cliente</span>
+        <div class="lp lp-map"><span class="lic">◎</span><b>MAP <i>RASTREADORES</i></b></div>
+        <p>Rastreamento veicular com instalação em domicílio no Rio de Janeiro.</p>
+        <span class="ir">Conhecer →</span>
+      </a>
+      <div class="parc rv">
+        <span class="tipo t-cli">Cliente</span>
+        <div class="lp lp-otica"><span class="lic">👓</span><b><small>Rede de</small>Ótica parceira</b></div>
+        <p>Rede de óticas com IA no WhatsApp que agenda exame de vista sozinha.</p>
+      </div>
+      <a class="parc rv" href="https://hbtnfc.com" target="_blank" rel="noopener">
+        <span class="tipo t-parc">Parceiro</span>
+        <div class="lp lp-nfc"><span class="lic">N</span><b><small>HBT</small>NFC</b></div>
+        <p>Placas QR e NFC para levar o cliente direto à avaliação no Google.</p>
+        <span class="ir">Conhecer →</span>
+      </a>
+      <a class="parc rv" href="https://status.hbtnfc.com" target="_blank" rel="noopener">
+        <span class="tipo t-parc">Parceiro</span>
+        <div class="lp lp-status"><span class="lic">S</span><b><small>HBT</small>Status</b></div>
+        <p>Postagem automática de Status do WhatsApp, integrada à ChatSolution.</p>
+        <span class="ir">Conhecer →</span>
+      </a>
+      <a class="parc rv" href="https://wa.me/5521999665064?text=Ol%C3%A1!%20Quero%20ser%20parceiro%20ChatSolution" target="_blank" rel="noopener">
+        <span class="tipo t-parc">Seja parceiro</span>
+        <div class="lp lp-mais"><span class="lic">+</span><b>Sua empresa aqui</b></div>
+        <p>Tem um sistema ou atende muitos clientes? Integre com a gente e cresça junto.</p>
+        <span class="ir">Quero ser parceiro →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="sec faixa menta" id="duvidas">
+  <div class="caixa">
+    <div class="topo-sec centro rv">
+      <span class="olho">Dúvidas</span>
+      <h2>Perguntas frequentes.</h2>
+    </div>
+    <div class="faq">
+      <details><summary>Preciso trocar o número da minha empresa?</summary><div class="corpo"><p>Não. Conectamos o número que você já usa, e seus clientes continuam falando com você pelo mesmo WhatsApp.</p></div></details>
+      <details><summary>Preciso deixar o celular ligado?</summary><div class="corpo"><p>Na API oficial da Meta, não. A conexão fica direto nos servidores do WhatsApp, estável e sem depender do aparelho.</p></div></details>
+      <details><summary>Quantas pessoas podem atender ao mesmo tempo?</summary><div class="corpo"><p>O Plano Base já vem com 3 atendentes no mesmo número, e você pode adicionar quantos precisar.</p></div></details>
+      <details><summary>A IA substitui a minha equipe?</summary><div class="corpo"><p>Não. A IA responde as perguntas comuns e organiza os atendimentos. Quando o cliente precisa de uma pessoa, ela passa a conversa para o atendente certo.</p></div></details>
+      <details><summary>Vocês ajudam a configurar?</summary><div class="corpo"><p>Sim. A gente conecta seus canais, cadastra a equipe, os setores, as respostas e a IA junto com você.</p></div></details>
+    </div>
+  </div>
+</section>
+
+<section class="faixa sec" id="contato">
+  <div class="caixa cta rv">
+    <div>
+      <h2>Vamos colocar seu WhatsApp para vender?</h2>
+      <p>Fale com a gente e veja a ChatSolution funcionando com a sua operação.</p>
+      <span class="tel">(21) 99966-5064</span>
+    </div>
+    <a class="btn btn-escuro" href="https://wa.me/5521999665064?text=Ol%C3%A1!%20Quero%20conhecer%20a%20ChatSolution" target="_blank" rel="noopener"><svg><use href="#zap"/></svg>Chamar no WhatsApp</a>
+  </div>
+</section>
+
+<section class="faixa legal-sec" id="politicas">
+  <div class="caixa faq">
+    <details id="privacidade"><summary>Política de Privacidade</summary><div class="corpo">
+      <p>Esta política explica como a HBT Soluções Digitais LTDA (CNPJ 60.023.634/0001-91), dona da marca ChatSolution, trata dados pessoais, conforme a Lei Geral de Proteção de Dados (Lei 13.709/2018).</p>
+      <h4>1. Quais dados coletamos</h4><p>Nome, telefone, e-mail e dados da empresa informados no contato ou na contratação; mensagens trocadas com a nossa equipe; e dados técnicos de uso da plataforma, como data, hora e endereço IP.</p>
+      <h4>2. Para que usamos</h4><p>Para responder contatos, prestar o serviço contratado, dar suporte, enviar avisos sobre a conta e cumprir obrigações legais. Mensagens de divulgação só são enviadas a quem autorizou, e podem ser canceladas a qualquer momento.</p>
+      <h4>3. WhatsApp e Meta</h4><p>Usamos a API oficial do WhatsApp Business, da Meta. As mensagens passam pela estrutura da Meta, de acordo com os termos e a política de privacidade do WhatsApp.</p>
+      <h4>4. Dados dos clientes da plataforma</h4><p>Nas conversas que nossos clientes fazem pela ChatSolution, cada cliente é o controlador dos dados dos seus contatos. A ChatSolution atua como operadora e trata esses dados só para executar o serviço.</p>
+      <h4>5. Compartilhamento</h4><p>Não vendemos dados pessoais. Compartilhamos apenas com fornecedores necessários à operação, como hospedagem e Meta, e com autoridades quando a lei exigir.</p>
+      <h4>6. Segurança e guarda</h4><p>Adotamos medidas técnicas e administrativas para proteger os dados e os guardamos pelo tempo necessário ao serviço ou exigido por lei.</p>
+      <h4>7. Seus direitos</h4><p>Você pode pedir acesso, correção, portabilidade ou exclusão dos seus dados, e revogar consentimentos, pelo e-mail contato@hbtsolucoesdigitais.com ou pelo WhatsApp (21) 99966-5064.</p>
+    </div></details>
+    <details id="termos"><summary>Termos de Uso</summary><div class="corpo">
+      <h4>1. O serviço</h4><p>A ChatSolution, marca da HBT Soluções Digitais LTDA, oferece uma plataforma de atendimento pelo WhatsApp e outros canais, com vários atendentes, chatbot, inteligência artificial, campanhas e integrações.</p>
+      <h4>2. Uso permitido</h4><p>O cliente se compromete a usar a plataforma de acordo com a lei e com as políticas do WhatsApp Business e da Meta. É proibido enviar spam, conteúdo ilegal, enganoso ou ofensivo, ou mensagens para quem não autorizou o contato.</p>
+      <h4>3. Conta e acesso</h4><p>Cada usuário é responsável por manter seu login e senha em sigilo e pelas ações feitas com a sua conta.</p>
+      <h4>4. Disponibilidade</h4><p>Trabalhamos para manter o serviço sempre no ar, mas podem ocorrer pausas para manutenção ou instabilidades de terceiros, como a própria Meta.</p>
+      <h4>5. Suspensão</h4><p>Contas que descumprirem estes termos ou as políticas do WhatsApp podem ser suspensas. Bloqueios de número aplicados pela Meta não são de responsabilidade da ChatSolution.</p>
+      <h4>6. Alterações</h4><p>Estes termos podem ser atualizados. A versão em vigor fica sempre publicada nesta página.</p>
+      <h4>7. Foro</h4><p>Fica eleito o foro da Comarca de São João de Meriti/RJ.</p>
+    </div></details>
+  </div>
+</section>
+</main>
+
+<footer class="faixa">
+  <div class="caixa">
+    <div class="rod">
+      <div class="empresa">
+        <img src="{{LOGO_BRANCA}}" alt="ChatSolution Tecnologia" width="176" height="56">
+        <p>ChatSolution é uma marca da<br><b>HBT Soluções Digitais LTDA</b><br>CNPJ 60.023.634/0001-91</p>
+        <p>R. Mascarenhas de Morais, 05 · Lote 37, Quadra 35<br>Jardim Meriti · São João de Meriti/RJ<br>CEP 25555-510</p>
+      </div>
+      <div>
+        <h4>Contato</h4>
+        <ul>
+          <li><a href="https://wa.me/5521999665064" target="_blank" rel="noopener">WhatsApp (21) 99966-5064</a></li>
+          <li>contato@hbtsolucoesdigitais.com</li>
+          <li><a href="https://www.instagram.com/chatsollution/" target="_blank" rel="noopener">Instagram @chatsollution</a></li>
+          <li><a href="https://painel.chatsollution.com" target="_blank" rel="noopener">Entrar no painel</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Institucional</h4>
+        <ul>
+          <li><a href="#como-funciona">Como funciona</a></li>
+          <li><a href="#recursos">Recursos</a></li>
+          <li><a href="#planos">Planos</a></li>
+          <li><a href="#privacidade">Política de Privacidade</a></li>
+          <li><a href="#termos">Termos de Uso</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal">
+      <span>© 2026 HBT Soluções Digitais LTDA. Todos os direitos reservados.</span>
+      <span>WhatsApp, Instagram e Facebook são marcas da Meta Platforms, Inc.</span>
+    </div>
+  </div>
+</footer>
+
+<a class="zap-flut" href="https://wa.me/5521999665064?text=Ol%C3%A1!%20Quero%20conhecer%20a%20ChatSolution" target="_blank" rel="noopener" aria-label="Falar no WhatsApp"><svg><use href="#zap"/></svg></a>
+
+<script>
+(function(){
+  var calmo = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Cabeçalho com sombra ao rolar */
+  var cab = document.getElementById('cabecalho');
+  addEventListener('scroll', function(){ cab.classList.toggle('rolou', scrollY > 10); }, {passive:true});
+
+  /* Links do rodapé abrem a política */
+  ['privacidade','termos'].forEach(function(id){
+    document.querySelectorAll('a[href="#'+id+'"]').forEach(function(a){ a.addEventListener('click', function(){ document.getElementById(id).open = true; }); });
+  });
+
+  /* Partículas leves no hero */
+  var cv = document.getElementById('particulas');
+  if (cv && !calmo){
+    var ctx = cv.getContext('2d'), pts = [], W, H, dpr = Math.min(devicePixelRatio||1,2), vis = true, mouse = {x:-999,y:-999};
+    function tam(){ var r = cv.getBoundingClientRect(); W = r.width; H = r.height; cv.width = W*dpr; cv.height = H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+      var n = Math.round(Math.min(70, W*H/18000)); pts = [];
+      for (var i=0;i<n;i++) pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*2+1});
+    }
+    tam(); addEventListener('resize', tam);
+    cv.parentElement.addEventListener('mousemove', function(e){ var r = cv.getBoundingClientRect(); mouse.x = e.clientX-r.left; mouse.y = e.clientY-r.top; });
+    cv.parentElement.addEventListener('mouseleave', function(){ mouse.x = mouse.y = -999; });
+    new IntersectionObserver(function(es){ vis = es[0].isIntersecting; if (vis) requestAnimationFrame(passo); }).observe(cv);
+    function passo(){
+      if (!vis) return;
+      ctx.clearRect(0,0,W,H);
+      for (var i=0;i<pts.length;i++){ var p = pts[i], dx = p.x-mouse.x, dy = p.y-mouse.y, d = Math.sqrt(dx*dx+dy*dy);
+        if (d<130){ p.x += dx/d*1.4; p.y += dy/d*1.4; }
+        p.x += p.vx; p.y += p.vy; if (p.x<0||p.x>W) p.vx*=-1; if (p.y<0||p.y>H) p.vy*=-1;
+        ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,6.283); ctx.fillStyle = 'rgba(16,208,107,.35)'; ctx.fill();
+        for (var j=i+1;j<pts.length;j++){ var q = pts[j], ex = p.x-q.x, ey = p.y-q.y, e = ex*ex+ey*ey;
+          if (e<12000){ ctx.strokeStyle = 'rgba(6,128,63,'+(0.12*(1-e/12000))+')'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(q.x,q.y); ctx.stroke(); }
+        }
+      }
+      requestAnimationFrame(passo);
+    }
+    requestAnimationFrame(passo);
+  }
+
+  /* Palavra girando */
+  var giro = document.getElementById('giro');
+  if (giro && !calmo){
+    var gs = giro.querySelectorAll('span'), gi = 0;
+    setInterval(function(){ var a = gs[gi]; gi = (gi+1)%gs.length; var b = gs[gi];
+      a.className = 'sai'; b.className = 'espera'; void b.offsetWidth; b.className = '';
+      setTimeout(function(){ a.className = 'espera'; }, 650); }, 2400);
+  }
+
+  /* Celular */
+  var cenas = [
+    {nome:'Barbearia Navalha', av:'BN', bg:'#3b2a1d', fg:'#f0c27b', t:'Agenda atualizada', s:'Corte + barba · 17:30', msgs:[
+      ['c','Fala! Tem horário pra corte e barba hoje?','16:02'],
+      ['b','Tem sim! Hoje com o Léo:<div class="chips"><span>16:30</span><span>17:30</span><span>19:00</span></div>','16:02'],
+      ['c','17:30 fechou','16:03'],
+      ['b','Marcado ✅ Corte + barba às 17:30 com o Léo. Te lembro 1h antes.','16:03']]},
+    {nome:'Farmácia Vida', av:'FV', bg:'#e3f7ea', fg:'#06803f', t:'Pedido criado', s:'#132 · R$ 19,80 · Pix', msgs:[
+      ['c','Tem dipirona gotas? Entrega no Centro?','10:14'],
+      ['b','Temos! Dipirona gotas 20 ml por R$ 9,90. Entrega no Centro em até 40 min.','10:14'],
+      ['c','Manda 2, pago no Pix','10:15'],
+      ['b','Pedido #132 feito ✅ Total R$ 19,80.<div class="pix"><i></i>Copiar chave Pix</div>','10:15']]},
+    {nome:'Ótica Visão', av:'OV', bg:'#1d3f9a', fg:'#ffffff', t:'Exame marcado', s:'Quinta · 15:30', msgs:[
+      ['c','Queria marcar exame de vista pra amanhã 🙂','14:02'],
+      ['b','Claro! Quinta temos:<div class="chips"><span>09:30</span><span>11:00</span><span>15:30</span></div>','14:02'],
+      ['c','15:30 por favor','14:03'],
+      ['b','Exame marcado ✅ Quinta às 15:30. Te aviso 1h antes.','14:03']]}
+  ];
+  var box = document.getElementById('msgs'), nome = document.getElementById('cel-nome'), av = document.getElementById('cel-av');
+  var t1 = document.getElementById('toast1'), t1t = document.getElementById('toast1-t'), t1s = document.getElementById('toast1-s'), t2 = document.getElementById('toast2');
+  var botoes = document.querySelectorAll('.nichos-cel button'), atual = 0, timers = [];
+  function limpa(){ timers.forEach(clearTimeout); timers = []; }
+  function depois(fn,ms){ timers.push(setTimeout(fn,ms)); }
+  function bolha(m){ var d = document.createElement('div'); d.className = 'm '+m[0]; d.innerHTML = (m[0]==='b'?'<span class="q">Assistente IA</span>':'')+m[1]+'<small>'+m[2]+'</small>'; return d; }
+  function toca(i){
+    limpa(); atual = i; var c = cenas[i];
+    botoes.forEach(function(b,k){ b.setAttribute('aria-pressed', k===i?'true':'false'); });
+    t1.classList.add('oculto'); t2.classList.add('oculto'); box.classList.add('limpa');
+    depois(function(){
+      box.innerHTML = ''; box.classList.remove('limpa');
+      nome.textContent = c.nome; av.textContent = c.av; av.style.background = c.bg; av.style.color = c.fg;
+      t1t.textContent = c.t; t1s.textContent = c.s;
+      var tempo = 300;
+      c.msgs.forEach(function(m,k){
+        if (m[0]==='b'){
+          depois(function(){ var dg = document.createElement('div'); dg.className='digitando'; dg.innerHTML='<i></i><i></i><i></i>'; box.appendChild(dg); }, tempo);
+          tempo += 1100;
+          depois(function(){ var dg = box.querySelector('.digitando'); if (dg) dg.remove(); box.appendChild(bolha(m)); if (k===1) t2.classList.remove('oculto'); }, tempo);
+        } else depois(function(){ box.appendChild(bolha(m)); }, tempo);
+        tempo += 1000;
+      });
+      depois(function(){ t1.classList.remove('oculto'); }, tempo-600);
+      depois(function(){ toca((atual+1)%cenas.length); }, tempo+3200);
+    }, 420);
+  }
+  botoes.forEach(function(b){ b.addEventListener('click', function(){ toca(+b.dataset.n); }); });
+  if (!calmo) setTimeout(function(){ toca(0); }, 1800);
+
+  /* Painel ao vivo */
+  var conversas = [
+    {n:'Ana Martins', ini:'AM', cor:'#10a35a', ult:'Tem o remédio em estoque?', fila:'Vendas', at:'Carla', msgs:[['c','Cliente','Oi! Tem protetor solar FPS 50?'],['s','','IA respondeu e passou para Vendas'],['a','Carla','Temos sim! Separo para retirada ou entrega?'],['c','Cliente','Entrega, por favor 🙏']]},
+    {n:'Ricardo Souza', ini:'RS', cor:'#2f6bff', ult:'Quero a segunda via do boleto', fila:'Financeiro', at:'Bruno', msgs:[['c','Cliente','Preciso da segunda via do boleto'],['a','Bruno','Claro, Ricardo! Acabei de enviar aqui 👇'],['s','','Etiqueta aplicada: Financeiro'],['c','Cliente','Recebi, obrigado!']]},
+    {n:'Juliana Lima', ini:'JL', cor:'#d4762c', ult:'Pedido chegou, obrigada!', fila:'Pós-venda', at:'Carla', msgs:[['c','Cliente','Pedido chegou, obrigada!'],['a','Carla','Que bom! Posso te avisar das próximas promoções?'],['c','Cliente','Pode sim!'],['s','','Etiqueta aplicada: Cliente fiel']]},
+    {n:'Paulo Costa', ini:'PC', cor:'#7a4fd6', ult:'Vocês entregam no Recreio?', fila:'Vendas', at:'IA', msgs:[['c','Cliente','Vocês entregam no Recreio?'],['a','Assistente IA','Entregamos! Taxa de R$ 7 e chega em até 40 min.'],['c','Cliente','Ótimo, quero fazer um pedido'],['s','','Transferido para Vendas · Carla']]}
+  ];
+  var tks = document.getElementById('tickets'), cm = document.getElementById('conv-msgs'), cn = document.getElementById('conv-nome'), ci = document.getElementById('conv-info');
+  var pAtual = 0, pTimers = [];
+  function desenhaLista(){
+    tks.innerHTML = conversas.map(function(c,i){ return '<div class="tk'+(i===pAtual?' ativo':'')+'" style="animation-delay:'+(i*.06)+'s"><span class="av" style="background:'+c.cor+'">'+c.ini+'</span><div><b>'+c.n+'</b><span>'+c.ult+'</span><em>'+c.fila+'</em></div></div>'; }).join('');
+  }
+  function abre(i){
+    pTimers.forEach(clearTimeout); pTimers = []; pAtual = i; var c = conversas[i];
+    desenhaLista(); cn.textContent = c.n; ci.textContent = 'Fila '+c.fila+' · Atendente: '+c.at; cm.innerHTML = '';
+    c.msgs.forEach(function(m,k){ pTimers.push(setTimeout(function(){ var d = document.createElement('div'); d.className = 'pm '+m[0]; d.innerHTML = (m[1]?'<small>'+m[1]+'</small>':'')+m[2]; cm.appendChild(d); }, calmo?0:300+k*1100)); });
+    if (!calmo) pTimers.push(setTimeout(function(){ abre((pAtual+1)%conversas.length); }, 300+c.msgs.length*1100+2600));
+  }
+  abre(0);
+
+  /* Segmentos */
+  var segs = [
+    {ab:'💈 Barbearias', emo:'💈', tit:'Barbearias', desc:'A IA marca horário por barbeiro, lembra o cliente e chama de volta quem sumiu.',
+      li:['Agenda por barbeiro, direto no WhatsApp','Lembrete automático antes do horário','Campanha para quem não volta há 30 dias'],
+      ev:[['16:02','Cliente pede corte + barba','WhatsApp'],['16:03','IA marca 17:30 com o Léo','pela IA'],['16:30','Lembrete enviado','automático'],['18:10','Nota 5 na pesquisa','pesquisa']]},
+    {ab:'💊 Farmácias', emo:'💊', tit:'Farmácias e drogarias', desc:'Balcão e entrega no mesmo número, com Pix dentro da conversa.',
+      li:['Orçamento por foto da receita','Pedido com botão de Pix na conversa','Campanha de recompra para uso contínuo'],
+      ev:[['10:14','Cliente manda foto da receita','WhatsApp'],['10:15','Orçamento enviado pelo balcão','equipe'],['10:16','Pix pago, pedido #132','pela IA'],['10:52','Entregue e avisado','automático']]},
+    {ab:'👓 Óticas', emo:'👓', tit:'Óticas', desc:'A IA agenda exame de vista sozinha e avisa quando os óculos ficam prontos.',
+      li:['Exame marcado pela IA, sem parar o balcão','Aviso de óculos pronto para retirada','Orçamento de lentes com o atendente'],
+      ev:[['14:02','Cliente pede exame de vista','Instagram'],['14:03','IA marca quinta, 15:30','pela IA'],['14:30','Lentes orçadas pela equipe','equipe'],['Seg','Óculos pronto, aviso enviado','automático']]},
+    {ab:'🩺 Clínicas', emo:'🩺', tit:'Clínicas e consultórios', desc:'Confirmação de consulta, recepção e financeiro, cada um na sua fila.',
+      li:['Confirmação de consulta um dia antes','Paciente remarca sozinho pelo WhatsApp','Setores: recepção, financeiro e resultados'],
+      ev:[['08:00','Lembretes de amanhã enviados','automático'],['08:12','Paciente confirma com 1 toque','WhatsApp'],['09:40','Pede a 2ª via do boleto','equipe'],['11:00','Encaixe preenchido pela IA','pela IA']]},
+    {ab:'🛵 Delivery', emo:'🛵', tit:'Restaurantes e delivery', desc:'Pedido pelo WhatsApp, cardápio integrado e cliente avisado da entrega.',
+      li:['Integração com a Sua Loja Já, sem comissão','IA monta o pedido pela mensagem','Aviso de preparo, saída e entrega'],
+      ev:[['19:20','“Uma grande de calabresa”','WhatsApp'],['19:20','IA monta o pedido #88','pela IA'],['19:41','Saiu para entrega','automático'],['20:05','Entregue · nota 5','pesquisa']]},
+    {ab:'📍 Serviços', emo:'📍', tit:'Serviços e rastreamento', desc:'Suporte com fila, proposta no funil e lembrete de mensalidade.',
+      li:['Suporte com fila e protocolo','Proposta com instalação e mensalidade','Lembrete de vencimento automático'],
+      ev:[['09:05','Lead chega pelo site','chat do site'],['09:20','Proposta enviada','equipe'],['09:31','Instalação agendada','pela IA'],['Dia 10','Lembrete de mensalidade','automático']]}
+  ];
+  var abas = document.getElementById('abas'), DUR = 7000, sAtual = 0, sTimer;
+  segs.forEach(function(s,i){
+    var b = document.createElement('button'); b.className='aba'; b.type='button'; b.setAttribute('role','tab'); b.setAttribute('aria-selected', i===0?'true':'false'); b.style.setProperty('--dur', DUR+'ms');
+    b.innerHTML = s.ab+'<span class="barra"></span>'; b.addEventListener('click', function(){ mostra(i,true); }); abas.appendChild(b);
+  });
+  function mostra(i, manual){
+    sAtual = i; var s = segs[i];
+    abas.querySelectorAll('.aba').forEach(function(b,k){ b.setAttribute('aria-selected', k===i?'true':'false'); var bar = b.querySelector('.barra'); bar.style.animation='none'; void bar.offsetWidth; bar.style.animation=''; });
+    document.getElementById('seg-emo').textContent = s.emo;
+    document.getElementById('seg-tit').textContent = s.tit;
+    document.getElementById('seg-desc').textContent = s.desc;
+    document.getElementById('seg-lista').innerHTML = s.li.map(function(x){ return '<li>'+x+'</li>'; }).join('');
+    document.getElementById('seg-tempo').innerHTML = s.ev.map(function(e,k){ return '<div class="ev" style="animation-delay:'+(k*.12)+'s"><time>'+e[0]+'</time><span>'+e[1]+'</span><em'+(e[2]==='equipe'?' class="h"':'')+'>'+e[2]+'</em></div>'; }).join('');
+    clearTimeout(sTimer); if (!calmo) sTimer = setTimeout(function(){ mostra((sAtual+1)%segs.length); }, manual?DUR*2:DUR);
+  }
+  mostra(0);
+
+  /* Revelar ao rolar */
+  if ('IntersectionObserver' in window && !calmo){
+    var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting){ e.target.classList.remove('fora'); io.unobserve(e.target); } }); }, {rootMargin:'0px 0px -8% 0px'});
+    document.querySelectorAll('.rv').forEach(function(el){ if (el.getBoundingClientRect().top > innerHeight){ el.classList.add('fora'); io.observe(el); } });
+  }
+
+  /* Luz que segue o mouse nos cards */
+  document.querySelectorAll('.rec').forEach(function(el){
+    el.addEventListener('pointermove', function(e){ var r = el.getBoundingClientRect(); el.style.setProperty('--mx',(e.clientX-r.left)+'px'); el.style.setProperty('--my',(e.clientY-r.top)+'px'); });
+  });
+})();
+</script>
+</body>
+</html>
